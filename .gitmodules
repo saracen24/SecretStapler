@@ -1,0 +1,8 @@
+[submodule "3rdparty/jarro2783/cxxopts"]
+	path = 3rdparty/jarro2783/cxxopts
+	url = https://github.com/jarro2783/cxxopts.git
+	branch = v2.2.0
+[submodule "3rdparty/randombit/botan"]
+	path = 3rdparty/randombit/botan
+	url = https://github.com/randombit/botan.git
+	branch = 2.12.1
