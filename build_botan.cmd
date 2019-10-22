@@ -9,7 +9,7 @@ call "C:/Program Files (x86)/Microsoft Visual Studio/2017/Community/Common7/Tool
 call "%VS140COMNTOOLS%../../VC/vcvarsall.bat" x64
 
 :: Configure
-python configure.py --with-cmake
+python configure.py --with-cmake --without-documentation --without-sphinx --without-pdf --without-rst2man --without-doxygen
 
 pushd "build"
 :: Configure and build
