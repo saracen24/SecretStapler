@@ -1,4 +1,4 @@
-# SecretStapler
+# secretstapler
 AES-128/CBC/PKCS7 encryption.
 
 ## Full build pipeline
