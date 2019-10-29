@@ -10,7 +10,7 @@ namespace ss {
  * \param[in] file Path to output file.
  * \return Output file.
  */
-std::filesystem::path xgenerate(const std::filesystem::path& file);
+std::filesystem::path generate(const std::filesystem::path& file);
 
 /*!
  * \brief Encrypt file.

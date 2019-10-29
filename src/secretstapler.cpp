@@ -12,8 +12,8 @@ namespace ss {
 
 static const string_view kAlgorithm = "AES-128/CBC/PKCS7";
 
-void generate(Botan::secure_vector<uint8_t> &key,
-              Botan::secure_vector<uint8_t> &iv) {
+void xgenerate(Botan::secure_vector<uint8_t> &key,
+               Botan::secure_vector<uint8_t> &iv) {
   unique_ptr<Botan::Cipher_Mode> cipher =
       Botan::Cipher_Mode::create(kAlgorithm.data(), Botan::ENCRYPTION);
 
@@ -34,14 +34,14 @@ void xcrypt(Botan::secure_vector<uint8_t> &barray,
   cipher->finish(barray);
 }
 
-filesystem::path xgenerate(const filesystem::path &file) {
+filesystem::path generate(const filesystem::path &file) {
   if (filesystem::is_directory(file) ||
       !filesystem::exists(filesystem::absolute(file).parent_path()))
     return filesystem::path();
 
   Botan::secure_vector<uint8_t> key;
   Botan::secure_vector<uint8_t> iv;
-  generate(key, iv);
+  xgenerate(key, iv);
 
   ofstream output(filesystem::absolute(file), ios::app);
   output << "{\"key\":\"" << Botan::hex_encode(key) << "\",\"iv\":\""
@@ -66,8 +66,10 @@ filesystem::path xencrypt(const filesystem::path &file, string_view key,
          Botan::hex_decode_locked(iv.data()), Botan::ENCRYPTION);
 
   filesystem::path result = filesystem::absolute(file.string().append(".enc"));
+
   ofstream output(result, ios::binary | ios::trunc);
-  output << Botan::hex_encode(barray);
+  output.write(reinterpret_cast<const char *>(barray.data()),
+               static_cast<streamsize>(barray.size()));
   output.close();
 
   return result;
@@ -80,7 +82,7 @@ filesystem::path xdecrypt(const filesystem::path &file, string_view key,
 
   ifstream input(file, ios::binary);
   if (!input.is_open()) return filesystem::path();
-  Botan::secure_vector<uint8_t> barray = Botan::hex_decode_locked(
+  Botan::secure_vector<uint8_t> barray(
       {(istreambuf_iterator<char>(input)), istreambuf_iterator<char>()});
   input.close();
 
@@ -88,8 +90,10 @@ filesystem::path xdecrypt(const filesystem::path &file, string_view key,
          Botan::hex_decode_locked(iv.data()), Botan::DECRYPTION);
 
   filesystem::path result = filesystem::absolute(file.string().append(".dec"));
+
   ofstream output(result, ios::binary | ios::trunc);
-  output << string(barray.begin(), barray.end());
+  output.write(reinterpret_cast<const char *>(barray.data()),
+               static_cast<streamsize>(barray.size()));
   output.close();
 
   return result;
