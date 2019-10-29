@@ -1,4 +1,4 @@
-# SecretStapler
+# secretstapler
 AES-128/CBC/PKCS7 encryption.
 
 ## Full build pipeline
@@ -20,7 +20,7 @@ build_v141_x64.cmd
 git submodule update --init --recursive
 ```
 
-### Requirements
+### Dependencies
 [`botan`](https://github.com/randombit/botan) - Crypto and TLS for Modern C++ (manual build required).
 
 [`cxxopts`](https://github.com/jarro2783/cxxopts) - Lightweight C++ command line option parser.
