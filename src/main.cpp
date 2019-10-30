@@ -9,7 +9,7 @@ using namespace std;
 void usage(string_view appname) {
   cerr << "Usage:" << endl;
   cerr << appname
-       << " <--mode=generate|encrypt|decrypt> "
+       << " --mode=<generate|encrypt|decrypt> "
           "--file=\"/path/to/file.ext\" [--key=\"KEY\"] [--iv=\"IV\"]"
        << endl;
 }
@@ -80,16 +80,11 @@ int main(int argc, char* argv[]) {
 
   if (mode == "generate") {
     result = ss::generate(file);
-  } else if (mode == "encrypt") {
+  } else if (mode == "encrypt" || mode == "decrypt") {
     string key = cli["key"].as<string>();
     string iv = cli["iv"].as<string>();
 
-    result = ss::xencrypt(file, key, iv);
-  } else if (mode == "decrypt") {
-    string key = cli["key"].as<string>();
-    string iv = cli["iv"].as<string>();
-
-    result = ss::xdecrypt(file, key, iv);
+    result = ss::xcrypt(file, key, iv, mode);
   }
 
   cout << "Output file: " << result.string() << endl;
