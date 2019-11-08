@@ -7,9 +7,6 @@ if (NOT __sources_INCLUDED)
     "src/secretstapler.hpp"
   )
 
-  set (OTHER_FILES
-  )
-
   if ("${CMAKE_SYSTEM_NAME}" STREQUAL "Linux")
     set (PLATFORM_DEPENDENT_SOURCE_FILES
     )
@@ -17,6 +14,9 @@ if (NOT __sources_INCLUDED)
     set (PLATFORM_DEPENDENT_SOURCE_FILES
     )
   endif ()
+
+  set (OTHER_FILES
+  )
 
   source_group (TREE ${PROJECT_SOURCE_DIR}
     FILES
